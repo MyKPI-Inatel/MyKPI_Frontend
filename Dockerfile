@@ -1,7 +1,7 @@
 FROM node:20 as build
 WORKDIR /app
 COPY my-kpi/ .
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # Serve stage
