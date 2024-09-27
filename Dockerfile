@@ -1,7 +1,7 @@
 FROM node:20 as build
 WORKDIR /app
 COPY my-kpi/ .
-RUN npm ci
+RUN npm i --legacy-peer-deps
 RUN npm run build
 
 # Serve stage
