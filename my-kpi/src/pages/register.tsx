@@ -21,12 +21,19 @@ export default function Register() {
         setIsLoading(false);
         return;
       }
-      const response = await fetch(`${env.VITE_API_URL}/v1/register`, {
+
+      console.log('Registrando usuário:', {
+        username,
+        email,
+        password,
+        confirmPassowrd,
+      })
+      const response = await fetch(`${env.VITE_API_URL}/v1/register/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: username, email, password, usertype: 'cliente', orgId: 0, deptId: 0 }),
+        body: JSON.stringify({ name: username, email, password, usertype: 'admin', orgId: 1, deptId: 1 }),
       });
 
       if (response.ok) {
