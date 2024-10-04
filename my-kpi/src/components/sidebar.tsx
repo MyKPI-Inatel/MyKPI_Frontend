@@ -1,6 +1,7 @@
 import {
   ArrowLeftFromLine,
   ArrowRightFromLine,
+  Bolt,
   Database,
   Goal,
   House,
@@ -17,7 +18,7 @@ export default function Sidebar() {
   return (
     <Fragment>
       {isMenuOpen ? (
-        <div className="flex flex-col col-span-1 p-5 space-y-6 border-r w-full min-w-64">
+        <div className="flex flex-col p-5 space-y-6 border-r min-w-64">
           <button
             onClick={() => {
               setIsMenuOpen(!isMenuOpen);
@@ -80,6 +81,16 @@ export default function Sidebar() {
             >
               <ScrollText />
               <span>Desempenho</span>
+            </a>
+            <a
+              onClick={() => {
+                setIsSelected('configuracoes');
+              }}
+              className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${isSelected === 'configuracoes' ? 'bg-blue-500 text-white' : 'text-black'}`}
+              href='/config'
+            >
+              <Bolt />
+              <span>Configurações</span>
             </a>
           </div>
         </div>

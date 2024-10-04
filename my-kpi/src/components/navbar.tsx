@@ -3,7 +3,9 @@ import { Bell, CircleHelp, CircleUser, HeartHandshake, Megaphone } from 'lucide-
 export function Navbar() {
   return (
     <div className="flex w-full col-span-10 justify-between px-10 py-5 items-center border-b shadow-sm shadow-white">
-      <div>Logo</div>
+      <div className='flex w-14'>
+        <img src="/src/assets/logo.png" alt="Logo" />
+      </div>
       <div className="flex space-x-5 items-center">
         <CircleHelp />
         <Megaphone />

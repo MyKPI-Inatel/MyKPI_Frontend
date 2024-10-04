@@ -14,24 +14,21 @@ const compat = new FlatCompat({
 });
 
 export default [
-  ...compat.extends('standard', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'),
+  ...compat.extends('plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'),
   {
     plugins: {
       '@typescript-eslint': typescriptEslint,
     },
-
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 'latest',
       sourceType: 'module',
-
       parserOptions: {
         ecmaFeatures: {
-          jsx: true,
+          tsx: true,
         },
       },
     },
-
     settings: {
       react: {
         version: 'detect',

@@ -89,12 +89,6 @@ export default function Login() {
             {isLoading ? <Loader2 className="animate-spin h-6 w-6 text-white" /> : 'Entrar'}
           </div>
         </button>
-        <p className="text-center">
-          Ainda não possui cadastro?{' '}
-          <a href="/register" className="text-blue-400">
-            Clique aqui
-          </a>
-        </p>
       </form>
     </div>
   );
