@@ -29,7 +29,7 @@ export default function Login() {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('userId', user.id);
         localStorage.setItem('usertype', user.usertype);
-        localStorage.setItem('username', user.username);
+        localStorage.setItem('username', user.name);
         localStorage.setItem('userEmail', user.email);
 
         return navigate('/');
