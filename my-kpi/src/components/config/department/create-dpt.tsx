@@ -77,7 +77,7 @@ export const CreateDepartment = () => {
               type="text"
               id="id"
               name="id"
-              placeholder="Identificador da Organização"
+              placeholder="Identificador do Departamento"
             />
             <Label htmlFor="department" className="text-left">
               Nome do departamento
