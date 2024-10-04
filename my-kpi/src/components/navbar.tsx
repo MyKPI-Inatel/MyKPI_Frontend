@@ -7,6 +7,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import logo from "../assets/logo.png";
 
 export function Navbar() {
   const [user, setUser] = useState<string>();
@@ -32,7 +33,7 @@ export function Navbar() {
   return (
     <div className="flex w-full col-span-10 justify-between px-10 py-5 items-center border-b shadow-sm shadow-white">
       <div className="flex w-14">
-        <img src="/src/assets/logo.png" alt="Logo" />
+        <img src={logo} alt="Logo" />
       </div>
       <div className="flex space-x-5 items-center">
         <CircleHelp />
