@@ -1,34 +1,27 @@
-import {
-  Bell,
-  CircleHelp,
-  CircleUser,
-  HeartHandshake,
-  LogOut,
-  Megaphone,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import logo from "../assets/logo.png";
+import { CircleUser, LogOut } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import logo from '../assets/logo.png';
 
 export function Navbar() {
   const [user, setUser] = useState<string>();
 
   function logout() {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("userEmail")
-    localStorage.removeItem("username")
-    localStorage.removeItem("usertype")
-    localStorage.removeItem("userId")
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('username');
+    localStorage.removeItem('usertype');
+    localStorage.removeItem('userId');
   }
 
   useEffect(() => {
-    const username = localStorage.getItem("username")
+    const username = localStorage.getItem('username');
 
     if (!username) {
-      return
+      return;
     }
 
-    setUser(username)
-  }, [])
+    setUser(username);
+  }, []);
 
   return (
     <div className="flex w-full col-span-10 justify-between px-10 py-5 items-center border-b shadow-sm shadow-white">
@@ -36,10 +29,6 @@ export function Navbar() {
         <img src={logo} alt="Logo" />
       </div>
       <div className="flex space-x-5 items-center">
-        <CircleHelp />
-        <Megaphone />
-        <HeartHandshake />
-        <Bell />
         <a href="/login" onClick={logout}>
           <LogOut />
         </a>
