@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { useContext, useState } from 'react';
 import { DataContext } from '../../../context/data-context';
 import { Organizations } from '../org/columns';
+import swal from 'sweetalert';
 
 export const CreateDepartment = () => {
   const { organizations } = useContext(DataContext);
@@ -25,25 +26,37 @@ export const CreateDepartment = () => {
     const id = formData.get('id');
 
     if (!name || !id || !organization) {
+      swal('Erro', 'Todos os campos são obrigatórios', 'error');
       return;
     }
 
-    await fetch(`${env.VITE_API_URL}/v1/departments/`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id,
-        name,
-        orgid: organization.id,
-      }),
-    });
+    try {
+      const response = await fetch(`${env.VITE_API_URL}/v1/departments/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          orgid: organization.id,
+        }),
+      });
 
-    queryClient.invalidateQueries({
-      queryKey: ['departments'],
-    });
+      if (!response.ok) {
+        throw new Error('Failed to create department');
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ['departments'],
+      });
+
+      swal('Sucesso', 'Departamento criado com sucesso', 'success');
+    } catch (error) {
+      swal('Erro', 'Erro ao criar departamento', 'error');
+      console.error(error);
+    }
   }
 
   return (
@@ -68,7 +81,7 @@ export const CreateDepartment = () => {
             <Label htmlFor="department" className="text-left">
               Nome do departamento
             </Label>
-            <Input type="text" id="department" name="name" placeholder="Nome da Departamento" />
+            <Input type="text" id="department" name="name" placeholder="Nome do Departamento" />
             <Label htmlFor="organization" className="text-left">
               Organização
             </Label>
@@ -81,17 +94,15 @@ export const CreateDepartment = () => {
               }}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Departamento" />
+                <SelectValue placeholder="Organização" />
               </SelectTrigger>
               <SelectContent>
-                {organizations.length &&
-                  organizations.map((org) => {
-                    return (
-                      <SelectItem key={org.id} value={org.id.toString()}>
-                        {org.name}
-                      </SelectItem>
-                    );
-                  })}
+                {organizations.length > 0 &&
+                  organizations.map((org) => (
+                    <SelectItem key={org.id} value={org.id.toString()}>
+                      {org.name}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
