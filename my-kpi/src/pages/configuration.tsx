@@ -10,18 +10,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Spinner } from '../components/ui/spinner';
 
 export default function Configuration() {
-  const { organizations, departments, orgId, handleOrgChange, isDepartmentsLoading } =
+  const { organizations, departments, orgId, handleOrgChange, isOrganizationsLoading, isDepartmentsLoading } =
     useContext(DataContext);
 
   return (
     <Layout className="flex w-full space-x-5 p-5">
+      {/* Organizations */}
       <div className="flex flex-col w-1/2 space-y-5 shadow-md p-5 rounded-md">
         <div className="flex justify-between items-center">
           <span className="font-bold text-2xl">Organização</span>
           <CreateOrganization />
         </div>
-        <DataTable columns={orgColumns} data={organizations} />
+        {isOrganizationsLoading ? (
+          <div className="flex justify-center items-center h-full">
+            <Spinner />
+          </div>
+        ) : (
+          <DataTable columns={orgColumns} data={organizations} />
+        )}
       </div>
+
+      {/* Departments */}
       <div className="flex flex-col w-1/2 space-y-5 shadow-md p-5 rounded-md">
         <div className="flex justify-between items-center">
           <div className="flex space-x-5">
@@ -34,7 +43,7 @@ export default function Configuration() {
                 <SelectValue placeholder="Organização" />
               </SelectTrigger>
               <SelectContent>
-                {organizations.length &&
+                {organizations.length > 0 &&
                   organizations.map((org) => (
                     <SelectItem key={org.id} value={org.id.toString()}>
                       {org.name}

@@ -30,6 +30,7 @@ export default function Sidebar() {
             </a>
             <a
               className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/questions') ? 'bg-blue-500 text-white' : 'text-black'}`}
+              href="/questions"
             >
               <FileQuestion />
               <span>Perguntas</span>
