@@ -37,6 +37,7 @@ export default function Sidebar() {
             </a>
             <a
               className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/surveys') ? 'bg-blue-500 text-white' : 'text-black'}`}
+              href="/surveys"
             >
               <Binoculars />
               <span>Questionários</span>
