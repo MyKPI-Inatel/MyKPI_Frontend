@@ -1,19 +1,22 @@
 import { createContext, useCallback, useState } from 'react';
 import { Organizations } from '../components/config/org/columns';
 import { Departments } from '../components/config/department/columns';
-import { Pergunta } from '../components/config/question/columns';
+//import { Pergunta } from '../components/config/question/columns';
+import { Questionario } from '../components/config/survey/columns';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { env } from '../lib/env';
 
 export type DataContextType = {
   organizations: Organizations[];
   departments: Departments[];
-  questions: Pergunta[];
+  //questions: Pergunta[];
+  surveys: Questionario[];
   orgId?: number;
   handleOrgChange: (id: number) => void;
   isOrganizationsLoading: boolean;
   isDepartmentsLoading: boolean;
-  isQuestionsLoading: boolean;
+  //isQuestionsLoading: boolean;
+  isSurveysLoading: boolean;
 };
 
 type DataProviderProps = {
@@ -64,23 +67,42 @@ export function DataProvider({ children }: DataProviderProps) {
     queryFn: fetchDepartments,
   });
 
-  const fetchQuestions = useCallback(async () => {
-    const response = await fetch(`${env.VITE_API_URL}/v1/questions`, {
+  // const fetchQuestions = useCallback(async () => {
+  //   const response = await fetch(`${env.VITE_API_URL}/v1/questions`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  //     },
+  //   });
+
+  //   if (!response.ok) {
+  //     throw new Error('Failed to fetch questions');
+  //   }
+
+  //   return response.json();
+  // }, []);
+
+  // const { data: questions = [], isLoading: isQuestionsLoading } = useQuery<Pergunta[]>({
+  //   queryKey: ['questions'],
+  //   queryFn: fetchQuestions,
+  // });
+
+  const fetchSurveys = useCallback(async () => {
+    const response = await fetch(`${env.VITE_API_URL}/v1/surveys/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch questions');
+      throw new Error('Failed to fetch surveys');
     }
 
     return response.json();
   }, []);
 
-  const { data: questions = [], isLoading: isQuestionsLoading } = useQuery<Pergunta[]>({
-    queryKey: ['questions'],
-    queryFn: fetchQuestions,
+  const { data: surveys = [], isLoading: isSurveysLoading } = useQuery<Questionario[]>({
+    queryKey: ['surveys'],
+    queryFn: fetchSurveys,
   });
 
   const handleOrgChange = (id: number) => {
@@ -95,12 +117,14 @@ export function DataProvider({ children }: DataProviderProps) {
       value={{
         organizations,
         departments,
-        questions,
+        //questions,
+        surveys,
         orgId,
         handleOrgChange,
         isOrganizationsLoading,
         isDepartmentsLoading,
-        isQuestionsLoading,
+        //isQuestionsLoading,
+        isSurveysLoading,
       }}
     >
       {children}

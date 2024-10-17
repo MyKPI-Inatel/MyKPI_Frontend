@@ -31,6 +31,8 @@ export default function Login() {
         localStorage.setItem('usertype', user.usertype);
         localStorage.setItem('username', user.name);
         localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userOrgId', user.orgid);
+        localStorage.setItem('userDepId', user.depid);
 
         return navigate('/');
       } else {
@@ -39,6 +41,7 @@ export default function Login() {
       }
     } catch (error) {
       swal('Erro', 'Erro interno! Tente novamente mais tarde', 'error');
+      console.error(error);
     }
   };
 

@@ -14,11 +14,12 @@ import swal from 'sweetalert';
 
 export const CreateSurvey = () => {
   const queryClient = useQueryClient();
+  const orgId = Number(localStorage.getItem('userOrgId'));
 
   async function handleCreation(formData: FormData) {
     const title = formData.get('title');
 
-    if (!title) {
+    if (!title || !orgId) {
       swal('Erro', 'O título é obrigatório', 'error');
       return;
     }
@@ -32,6 +33,7 @@ export const CreateSurvey = () => {
         },
         body: JSON.stringify({
           title,
+          orgid: orgId,
         }),
       });
 

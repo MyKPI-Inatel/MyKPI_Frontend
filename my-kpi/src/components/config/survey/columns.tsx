@@ -69,10 +69,12 @@ export const columns: ColumnDef<Questionario>[] = [
   {
     accessorKey: 'id',
     header: 'Identificador',
+    cell: ({ row }) => <span>{row.original.id}</span>,
   },
   {
     accessorKey: 'title',
     header: 'Questionário',
+    cell: ({ row }) => <span>{row.original.title}</span>,
   },
   {
     header: 'Ações',

@@ -23,11 +23,12 @@ type EditSurveyProps = {
 export const EditSurvey = ({ survey }: EditSurveyProps) => {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState(survey.title);
+  const orgId = Number(localStorage.getItem('userOrgId'));
 
   async function handleUpdate(formData: FormData) {
     const updatedTitle = formData.get('title');
 
-    if (!updatedTitle) {
+    if (!updatedTitle || !orgId) {
       swal('Erro', 'O título é obrigatório', 'error');
       return;
     }
@@ -41,6 +42,7 @@ export const EditSurvey = ({ survey }: EditSurveyProps) => {
         },
         body: JSON.stringify({
           title: updatedTitle,
+          orgid: orgId,
         }),
       });
 
