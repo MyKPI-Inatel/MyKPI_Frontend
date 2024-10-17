@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState } from 'react';
-import { Organizations } from '../components/config/columns';
+import { Organizations } from '../components/config/org/columns';
 import { Departments } from '../components/config/department/columns';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { env } from '../lib/env';

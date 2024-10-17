@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { env } from "../../lib/env";
+import { env } from "../../../lib/env";
 import {
   Dialog,
   DialogClose,
@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+} from "../../ui/dialog";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 
 export const CreateOrganization = () => {
   const queryClient = useQueryClient();

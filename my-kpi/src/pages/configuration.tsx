@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { columns as orgColumns } from '../components/config/columns';
+import { columns as orgColumns } from '../components/config/org/columns';
 import { columns as dptColumns } from '../components/config/department/columns';
 import { DataTable } from '../components/data-table';
 import { Layout } from '../components/layout';
-import { CreateOrganization } from '../components/config/create-org';
+import { CreateOrganization } from '../components/config/org/create-org';
 import { CreateDepartment } from '../components/config/department/create-dpt';
 import { DataContext } from '../context/data-context';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
