@@ -1,6 +1,6 @@
-import { Label } from "@radix-ui/react-label";
-import { useQueryClient } from "@tanstack/react-query";
-import { env } from "../../../lib/env";
+import { Label } from '@radix-ui/react-label';
+import { useQueryClient } from '@tanstack/react-query';
+import { env } from '../../../lib/env';
 import {
   Dialog,
   DialogClose,
@@ -8,19 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../ui/dialog";
-import { Input } from "../../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
-import { useContext, useState } from "react";
-import { DataContext } from "../../../context/data-context";
-import { Organizations } from "../columns";
-
+} from '../../ui/dialog';
+import { Input } from '../../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
+import { useContext, useState } from 'react';
+import { DataContext } from '../../../context/data-context';
+import { Organizations } from '../org/columns';
 
 export const CreateDepartment = () => {
   const { organizations } = useContext(DataContext);
@@ -28,18 +21,18 @@ export const CreateDepartment = () => {
   const queryClient = useQueryClient();
 
   async function handleCreation(formData: FormData) {
-    const name = formData.get("name");
-    const id = formData.get("id");
+    const name = formData.get('name');
+    const id = formData.get('id');
 
     if (!name || !id || !organization) {
       return;
     }
 
     await fetch(`${env.VITE_API_URL}/v1/departments/`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         id,
@@ -49,15 +42,13 @@ export const CreateDepartment = () => {
     });
 
     queryClient.invalidateQueries({
-      queryKey: ["departments"],
+      queryKey: ['departments'],
     });
   }
 
   return (
     <Dialog>
-      <DialogTrigger className="px-5 py-2 bg-blue-500 rounded-md text-white">
-        Adicionar
-      </DialogTrigger>
+      <DialogTrigger className="px-5 py-2 bg-blue-500 rounded-md text-white">Adicionar</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Criar um novo departamento</DialogTitle>
@@ -73,44 +64,36 @@ export const CreateDepartment = () => {
             <Label htmlFor="id" className="text-left">
               Identificador
             </Label>
-            <Input
-              type="text"
-              id="id"
-              name="id"
-              placeholder="Identificador do Departamento"
-            />
+            <Input type="text" id="id" name="id" placeholder="Identificador do Departamento" />
             <Label htmlFor="department" className="text-left">
               Nome do departamento
             </Label>
-            <Input
-              type="text"
-              id="department"
-              name="name"
-              placeholder="Nome da Departamento"
-            />
+            <Input type="text" id="department" name="name" placeholder="Nome da Departamento" />
             <Label htmlFor="organization" className="text-left">
               Organização
             </Label>
-            <Select onValueChange={(value) => {
-              const selectedOrg = organizations.find(org => org.id === Number(value));
-              if (selectedOrg) {
-                setOrganization(selectedOrg);
-              }
-            }}>
+            <Select
+              onValueChange={(value) => {
+                const selectedOrg = organizations.find((org) => org.id === Number(value));
+                if (selectedOrg) {
+                  setOrganization(selectedOrg);
+                }
+              }}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Departamento" />
               </SelectTrigger>
               <SelectContent>
-                {organizations.length && organizations.map((org) => {
-                  return (
-                    <SelectItem key={org.id} value={org.id.toString()}>
-                      {org.name}
-                    </SelectItem>
-                  );
-                })}
+                {organizations.length &&
+                  organizations.map((org) => {
+                    return (
+                      <SelectItem key={org.id} value={org.id.toString()}>
+                        {org.name}
+                      </SelectItem>
+                    );
+                  })}
               </SelectContent>
             </Select>
-
           </div>
           <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white">
             Salvar
@@ -119,4 +102,4 @@ export const CreateDepartment = () => {
       </DialogContent>
     </Dialog>
   );
-}
+};
