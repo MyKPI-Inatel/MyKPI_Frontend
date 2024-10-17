@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './pages/login';
 import Home from './pages/home';
 import Configuration from './pages/configuration';
+import Questions from './pages/questions';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DataProvider } from './context/data-context';
 
@@ -15,6 +16,7 @@ export function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/config" element={<Configuration />} />
+          <Route path="/questions" element={<Questions />} />
         </Routes>
       </DataProvider>
     </QueryClientProvider>
