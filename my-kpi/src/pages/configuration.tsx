@@ -8,8 +8,10 @@ import { CreateDepartment } from '../components/config/department/create-dpt';
 import { DataContext } from '../context/data-context';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Spinner } from '../components/ui/spinner';
+import { useAuthGuard } from '../hooks/auth-guard';
 
 export default function Configuration() {
+  useAuthGuard();
   const { organizations, departments, orgId, handleOrgChange, isOrganizationsLoading, isDepartmentsLoading } =
     useContext(DataContext);
 

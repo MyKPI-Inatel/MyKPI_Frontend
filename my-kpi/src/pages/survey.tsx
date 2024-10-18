@@ -8,8 +8,11 @@ import { Spinner } from '../components/ui/spinner';
 import { Trash } from 'lucide-react';
 import { EditSurvey } from '../components/config/survey/edit-survey';
 import { Questionario } from '../components/config/survey/columns';
+import { useAuthGuard } from '../hooks/auth-guard';
 
 export default function Surveys() {
+  useAuthGuard();
+
   const { surveys, isSurveysLoading } = useContext(DataContext);
   const [selectedSurvey] = useState<Questionario | null>(null);
 
@@ -41,7 +44,7 @@ export default function Surveys() {
           <div className="flex justify-between items-center">
             <span className="font-bold text-2xl">Detalhes</span>
             <div className="flex space-x-2">
-              <button className="p-2 bg-slate-400 hover:bg-red-400 rounded-md hover:bg-red-600">
+              <button className="p-2 bg-slate-400 rounded-md hover:bg-red-600">
                 <Trash className="text-white" size={16} />
               </button>
               <EditSurvey survey={selectedSurvey} />

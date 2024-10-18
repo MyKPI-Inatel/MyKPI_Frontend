@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Layout } from '../components/layout';
 import { CreateQuestion } from '../components/config/question/create-question';
 import { Trash, Pencil } from 'lucide-react';
+import { useAuthGuard } from '../hooks/auth-guard';
 
 type Pergunta = {
   id: number;
@@ -10,6 +11,8 @@ type Pergunta = {
 };
 
 export default function Questions() {
+  useAuthGuard();
+
   const [selectedPergunta, setSelectedPergunta] = useState<Pergunta | null>(null);
 
   const mockPerguntas: Pergunta[] = [
@@ -69,7 +72,7 @@ export default function Questions() {
           <div className="flex justify-between items-center">
             <span className="font-bold text-2xl">Detalhes</span>
             <div className="flex space-x-2">
-              <button className="p-2 bg-slate-400 hover:bg-red-400 rounded-md hover:bg-red-600">
+              <button className="p-2 bg-slate-400 rounded-md hover:bg-red-600">
                 <Trash className="text-white" size={16} />
               </button>
               <button className="p-2 bg-slate-400 hover:bg-yellow-400 rounded-md">
