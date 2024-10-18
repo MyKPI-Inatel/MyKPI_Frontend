@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { columns as orgColumns } from '../components/config/org/columns';
 import { columns as dptColumns } from '../components/config/department/columns';
 import { DataTable } from '../components/data-table';
@@ -9,11 +9,21 @@ import { DataContext } from '../context/data-context';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Spinner } from '../components/ui/spinner';
 import { useAuthGuard } from '../hooks/auth-guard';
+import { useNavigate } from 'react-router-dom';
 
 export default function Configuration() {
   useAuthGuard();
+  const navigate = useNavigate();
   const { organizations, departments, orgId, handleOrgChange, isOrganizationsLoading, isDepartmentsLoading } =
     useContext(DataContext);
+
+  useEffect(() => {
+    const role = localStorage.getItem('usertype')
+
+    if (role === 'employee') {
+      return navigate('/')
+    }
+  }, [])
 
   return (
     <Layout className="flex w-full space-x-5 p-5">

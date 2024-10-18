@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Layout } from '../components/layout';
 import { CreateSurvey } from '../components/config/survey/create-survey';
 import { DataTable } from '../components/data-table';
@@ -9,12 +9,22 @@ import { Trash } from 'lucide-react';
 import { EditSurvey } from '../components/config/survey/edit-survey';
 import { Questionario } from '../components/config/survey/columns';
 import { useAuthGuard } from '../hooks/auth-guard';
+import { useNavigate } from 'react-router-dom';
 
 export default function Surveys() {
   useAuthGuard();
 
   const { surveys, isSurveysLoading } = useContext(DataContext);
   const [selectedSurvey] = useState<Questionario | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const role = localStorage.getItem('usertype')
+
+    if (role === 'employee') {
+      return navigate('/')
+    }
+  }, [])
 
   return (
     <Layout className="flex w-full space-x-5 p-5">

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout } from '../components/layout';
 import { CreateQuestion } from '../components/config/question/create-question';
 import { Trash, Pencil } from 'lucide-react';
 import { useAuthGuard } from '../hooks/auth-guard';
+import { useNavigate } from 'react-router-dom';
 
 type Pergunta = {
   id: number;
@@ -26,6 +27,16 @@ export default function Questions() {
   const handleSelectPergunta = (pergunta: Pergunta) => {
     setSelectedPergunta(pergunta);
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const role = localStorage.getItem('usertype')
+
+    if (role === 'employee') {
+      return navigate('/')
+    }
+  }, [])
 
   return (
     <Layout className="flex w-full space-x-5 p-5">
