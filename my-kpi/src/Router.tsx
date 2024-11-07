@@ -17,7 +17,7 @@ export function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/config" element={<Configuration />} />
-          <Route path="/questions" element={<Questions />} />
+          <Route path="/questions/survey/:surveyId" element={<Questions />} />
           <Route path="/surveys" element={<Surveys />} />
         </Routes>
       </DataProvider>

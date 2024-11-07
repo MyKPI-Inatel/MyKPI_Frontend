@@ -1,12 +1,28 @@
-import { ArrowLeftFromLine, ArrowRightFromLine, Bolt, FileQuestion, Binoculars, House } from 'lucide-react';
+import { ArrowLeftFromLine, ArrowRightFromLine, Bolt, Binoculars, House } from 'lucide-react';
 import { Fragment, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
+interface CustomJwtPayload {
+  usertype?: string;
+}
 
 export default function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const location = useLocation();
 
   const getIsSelected = (path: string) => location.pathname === path;
+
+  const token = localStorage.getItem('access_token');
+  let userRole = null;
+  if (token) {
+    try {
+      const decodedToken = jwtDecode<CustomJwtPayload>(token);
+      userRole = decodedToken.usertype;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+    }
+  }
 
   return (
     <Fragment>
@@ -28,27 +44,25 @@ export default function Sidebar() {
               <House />
               <span>Início</span>
             </a>
-            <a
-              className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/questions') ? 'bg-blue-500 text-white' : 'text-black'}`}
-              href="/questions"
-            >
-              <FileQuestion />
-              <span>Perguntas</span>
-            </a>
-            <a
-              className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/surveys') ? 'bg-blue-500 text-white' : 'text-black'}`}
-              href="/surveys"
-            >
-              <Binoculars />
-              <span>Questionários</span>
-            </a>
-            <a
-              className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/config') ? 'bg-blue-500 text-white' : 'text-black'}`}
-              href="/config"
-            >
-              <Bolt />
-              <span>Configurações</span>
-            </a>
+
+            {(userRole === 'orgadmin' || userRole === 'superadmin') && (
+              <>
+                <a
+                  className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/surveys') ? 'bg-blue-500 text-white' : 'text-black'}`}
+                  href="/surveys"
+                >
+                  <Binoculars />
+                  <span>Questionários</span>
+                </a>
+                <a
+                  className={`flex space-x-2 p-4 rounded-lg cursor-pointer ${getIsSelected('/config') ? 'bg-blue-500 text-white' : 'text-black'}`}
+                  href="/config"
+                >
+                  <Bolt />
+                  <span>Configurações</span>
+                </a>
+              </>
+            )}
           </div>
         </div>
       ) : (

@@ -11,15 +11,18 @@ import {
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import swal from 'sweetalert';
+import { useParams } from 'react-router-dom';
 
 export const CreateQuestion = () => {
   const queryClient = useQueryClient();
+  const { surveyId } = useParams<{ surveyId: string }>();
+  console.log(surveyId);
 
   async function handleCreation(formData: FormData) {
     const title = formData.get('title');
-    const scoreFactor = formData.get('scoreFactor');
+    const scorefactor = formData.get('scorefactor');
 
-    if (!title || !scoreFactor) {
+    if (!title || !scorefactor) {
       swal('Erro', 'Todos os campos são obrigatórios', 'error');
       return;
     }
@@ -33,7 +36,8 @@ export const CreateQuestion = () => {
         },
         body: JSON.stringify({
           title,
-          scoreFactor: parseFloat(scoreFactor as string),
+          scorefactor: parseFloat(scorefactor as string),
+          surveyid: surveyId ? parseInt(surveyId, 10) : 0,
         }),
       });
 
@@ -71,14 +75,14 @@ export const CreateQuestion = () => {
               Pergunta
             </Label>
             <Input type="text" id="title" name="title" placeholder="Título da Pergunta" />
-            <Label htmlFor="scoreFactor" className="text-left">
+            <Label htmlFor="scorefactor" className="text-left">
               Fator de Pontuação
             </Label>
             <Input
               type="number"
               step="0.1"
-              id="scoreFactor"
-              name="scoreFactor"
+              id="scorefactor"
+              name="scorefactor"
               placeholder="Fator de Pontuação"
             />
           </div>

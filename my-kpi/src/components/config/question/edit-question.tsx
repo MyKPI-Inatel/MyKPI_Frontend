@@ -17,18 +17,18 @@ type EditQuestionProps = {
   question: {
     id: number;
     title: string;
-    scoreFactor: number;
+    scorefactor: number;
   };
 };
 
 export const EditQuestion = ({ question }: EditQuestionProps) => {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState(question.title);
-  const [scoreFactor, setScoreFactor] = useState(question.scoreFactor.toString());
+  const [scorefactor, setScoreFactor] = useState(question.scorefactor);
 
   async function handleUpdate(formData: FormData) {
     const updatedTitle = formData.get('title');
-    const updatedScoreFactor = formData.get('scoreFactor');
+    const updatedScoreFactor = formData.get('scorefactor');
 
     if (!updatedTitle || !updatedScoreFactor) {
       swal('Erro', 'Todos os campos são obrigatórios', 'error');
@@ -44,7 +44,7 @@ export const EditQuestion = ({ question }: EditQuestionProps) => {
         },
         body: JSON.stringify({
           title: updatedTitle,
-          scoreFactor: parseFloat(updatedScoreFactor as string),
+          scorefactor: parseFloat(updatedScoreFactor as string),
         }),
       });
 
@@ -91,17 +91,17 @@ export const EditQuestion = ({ question }: EditQuestionProps) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <Label htmlFor="scoreFactor" className="text-left">
+            <Label htmlFor="scorefactor" className="text-left">
               Fator de Pontuação
             </Label>
             <Input
               type="number"
-              step="0.1"
-              id="scoreFactor"
-              name="scoreFactor"
+              step="1"
+              id="scorefactor"
+              name="scorefactor"
               placeholder="Fator de Pontuação"
-              value={scoreFactor}
-              onChange={(e) => setScoreFactor(e.target.value)}
+              value={scorefactor}
+              onChange={(e) => setScoreFactor(parseFloat(e.target.value))}
             />
           </div>
           <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white">

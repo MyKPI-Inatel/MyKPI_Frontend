@@ -9,7 +9,7 @@ import { EditQuestion } from './edit-question';
 export type Pergunta = {
   id: number;
   title: string;
-  scoreFactor: number;
+  scorefactor: number;
 };
 
 const useDeleteQuestion = () => {
@@ -76,7 +76,7 @@ export const columns: ColumnDef<Pergunta>[] = [
     header: 'Pergunta',
   },
   {
-    accessorKey: 'scoreFactor',
+    accessorKey: 'scorefactor',
     header: 'Fator de Pontuação',
   },
   {

@@ -12,6 +12,7 @@ import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import { useState } from 'react';
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 
 type EditSurveyProps = {
   survey: {
@@ -22,13 +23,12 @@ type EditSurveyProps = {
 
 export const EditSurvey = ({ survey }: EditSurveyProps) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [title, setTitle] = useState(survey.title);
-  const orgId = Number(localStorage.getItem('userOrgId'));
-
   async function handleUpdate(formData: FormData) {
     const updatedTitle = formData.get('title');
 
-    if (!updatedTitle || !orgId) {
+    if (!updatedTitle) {
       swal('Erro', 'O título é obrigatório', 'error');
       return;
     }
@@ -42,7 +42,6 @@ export const EditSurvey = ({ survey }: EditSurveyProps) => {
         },
         body: JSON.stringify({
           title: updatedTitle,
-          orgid: orgId,
         }),
       });
 
@@ -59,6 +58,10 @@ export const EditSurvey = ({ survey }: EditSurveyProps) => {
       swal('Erro', 'Erro ao atualizar questionário', 'error');
       console.error(error);
     }
+  }
+
+  function handleAddQuestion() {
+    navigate(`/questions/survey/${survey.id}`);
   }
 
   return (
@@ -90,9 +93,21 @@ export const EditSurvey = ({ survey }: EditSurveyProps) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white">
-            Salvar
-          </DialogClose>
+          <div className="flex justify-between w-full mt-4">
+            <button
+              type="button"
+              onClick={handleAddQuestion}
+              className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 rounded-md text-white"
+            >
+              Editar perguntas
+            </button>
+            <DialogClose
+              type="submit"
+              className="px-5 py-2 bg-blue-500 hover:bg-blue-600  rounded-md text-white"
+            >
+              Salvar
+            </DialogClose>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
