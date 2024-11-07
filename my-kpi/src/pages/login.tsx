@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import swal from 'sweetalert';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -13,35 +13,34 @@ export default function Login() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+
+    const formData = new URLSearchParams();
+    formData.append('username', username);
+    formData.append('password', password);
+
     try {
       const response = await fetch(`${env.VITE_API_URL}/v1/login/`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({ email, password }),
+        body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
-        const user = data.user;
 
         localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('usertype', user.usertype);
-        localStorage.setItem('username', user.name);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userOrgId', user.orgid);
-        localStorage.setItem('userDepId', user.depid);
 
         return navigate('/');
       } else {
-        swal('Erro', 'Email ou senha inválidos!', 'error');
+        swal('Erro', 'Usuário ou senha inválidos!', 'error');
         setIsLoading(false);
       }
     } catch (error) {
       swal('Erro', 'Erro interno! Tente novamente mais tarde', 'error');
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -53,20 +52,20 @@ export default function Login() {
       >
         <div className="relative z-0 w-full mb-5 group">
           <input
-            type="email"
-            name="email"
-            id="email"
+            type="text"
+            name="username"
+            id="username"
             className="block py-2.5 px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="peer-focus:font-medium absolute text-md text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Email
+            Usuário
           </label>
         </div>
         <div className="relative z-0 w-full mb-5 group">
