@@ -19,7 +19,7 @@ export default function Login() {
     formData.append('password', password);
 
     try {
-      const response = await fetch(`${env.VITE_API_URL}/v1/login/`, {
+      const response = await fetch(`${env.VITE_API_URL}/v1/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

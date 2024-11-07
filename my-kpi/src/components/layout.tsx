@@ -1,3 +1,4 @@
+import { useAuthGuard } from "../hooks/auth-guard";
 import { Navbar } from "./navbar";
 import Sidebar from "./sidebar";
 
@@ -7,6 +8,8 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children, className = "" }: Readonly<LayoutProps>) => {
+  useAuthGuard();
+  
   return (
     <div className="flex flex-col">
       <Navbar />
