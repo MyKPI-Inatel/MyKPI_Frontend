@@ -5,8 +5,10 @@ import { Questionario } from '../components/config/survey/columns';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { env } from '../lib/env';
 import { jwtDecode } from 'jwt-decode';
+import { Users } from '../components/config/users/columns';
 
 export type DataContextType = {
+  users: Users[];
   organizations: Organizations[];
   departments: Departments[];
   surveys: Questionario[];
@@ -96,6 +98,26 @@ export function DataProvider({ children }: DataProviderProps) {
     enabled: userRole === 'orgadmin' || userRole === 'superadmin',
   });
 
+  const fetchUsers = useCallback(async () => {
+    const response = await fetch(`${env.VITE_API_URL}/v1/users`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
+    }
+
+    return response.json();
+  }, []);
+
+  const { data: users = [] } = useQuery<Users[]>({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    enabled: userRole === 'superadmin',
+  });
+
   const handleOrgChange = (id: number) => {
     setOrgId(id);
     queryClient.refetchQueries({
@@ -106,6 +128,7 @@ export function DataProvider({ children }: DataProviderProps) {
   return (
     <DataContext.Provider
       value={{
+        users,
         organizations,
         departments,
         surveys,

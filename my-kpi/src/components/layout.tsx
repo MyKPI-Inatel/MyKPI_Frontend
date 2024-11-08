@@ -1,15 +1,15 @@
-import { useAuthGuard } from "../hooks/auth-guard";
-import { Navbar } from "./navbar";
-import Sidebar from "./sidebar";
+import { useAuthGuard } from '../hooks/auth-guard';
+import { Navbar } from './navbar';
+import Sidebar from './sidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export const Layout = ({ children, className = "" }: Readonly<LayoutProps>) => {
+export const Layout = ({ children, className = '' }: Readonly<LayoutProps>) => {
   useAuthGuard();
-  
+
   return (
     <div className="flex flex-col">
       <Navbar />
@@ -19,4 +19,4 @@ export const Layout = ({ children, className = "" }: Readonly<LayoutProps>) => {
       </div>
     </div>
   );
-}
+};
