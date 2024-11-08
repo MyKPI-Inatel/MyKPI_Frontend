@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Layout } from '../components/layout';
 import { env } from '../lib/env';
 import { ShowSurveys } from '../components/surveys/show-surveys';
+import { useAuthGuard } from '../hooks/auth-guard';
 
 export default function Home() {
+  useAuthGuard();
   const [surveys, setSurveys] = useState([]);
 
   async function fetchSurveys() {

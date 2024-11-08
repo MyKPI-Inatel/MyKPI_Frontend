@@ -64,8 +64,10 @@ export default function Questions() {
       <div className="flex flex-col w-full space-y-5 shadow-md p-5 rounded-md">
         <div className="flex justify-between items-center">
           <span className="font-bold text-2xl">Perguntas</span>
-          <ChooseQuestion />
-          <CreateQuestion />
+          <div className='space-x-5'>
+            <ChooseQuestion />
+            <CreateQuestion />
+          </div>
         </div>
         <DataTable columns={questionColumns} data={questions!} />
       </div>

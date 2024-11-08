@@ -11,9 +11,9 @@ export const Layout = ({ children, className = '' }: Readonly<LayoutProps>) => {
   useAuthGuard();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex">
+      <div className="flex h-full">
         <Sidebar />
         <div className={className}>{children}</div>
       </div>
