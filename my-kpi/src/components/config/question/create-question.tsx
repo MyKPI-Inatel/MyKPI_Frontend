@@ -48,7 +48,7 @@ export const CreateQuestion = () => {
       const data = await response.json();
 
       queryClient.invalidateQueries({
-        queryKey: ['questions'],
+        queryKey: ['questions', surveyId],
       });
 
       const associationResponse = await fetch(`${env.VITE_API_URL}/v1/questions/${data.id}/survey/${surveyId}`, {

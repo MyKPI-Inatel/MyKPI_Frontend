@@ -51,7 +51,7 @@ export const RespondSurveys = () => {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
       body: JSON.stringify({
-        employeeid: employeeId,
+        employeeid: Number(employeeId),
         surveyid: Number(surveyId),
         answers,
       }),
