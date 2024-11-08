@@ -11,15 +11,23 @@ import {
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import swal from 'sweetalert';
+import { jwtDecode } from 'jwt-decode';
 
 export const CreateSurvey = () => {
   const queryClient = useQueryClient();
-  const orgId = Number(localStorage.getItem('userOrgId'));
 
   async function handleCreation(formData: FormData) {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      return;
+    }
+
+    const { orgid } = jwtDecode<{ usertype: string, orgid: number }>(token);
+    
     const title = formData.get('title');
 
-    if (!title || orgId === null) {
+    if (!title || orgid === null) {
       swal('Erro', 'O título é obrigatório', 'error');
       return;
     }
@@ -33,7 +41,7 @@ export const CreateSurvey = () => {
         },
         body: JSON.stringify({
           title,
-          orgid: orgId,
+          orgid,
         }),
       });
 
