@@ -6,6 +6,7 @@ import { Layout } from '../components/layout';
 
 export const RespondSurveys = () => {
   const [questions, setQuestions] = useState<Pergunta[]>([]);
+  const [selectedRatings, setSelectedRatings] = useState<{ [key: number]: number }>({});
   const { surveyId } = useParams<{ surveyId: string }>();
   const navigate = useNavigate();
 
@@ -36,6 +37,7 @@ export const RespondSurveys = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     const answers = Array.from(formData.entries()).map(([key, value]) => ({
       questionid: parseInt(key),
@@ -70,27 +72,44 @@ export const RespondSurveys = () => {
       });
   }
 
+  const handleStarChange = (questionId: number, value: number) => {
+    setSelectedRatings((prevRatings) => ({
+      ...prevRatings,
+      [questionId]: value,
+    }));
+  };
+
   return (
     <Layout className="p-5 space-y-5">
       <h1 className="text-lg font-semibold">Responda as perguntas</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {questions.map((question) => {
+          const selectedRating = selectedRatings[question.id] || 0;
           return (
             <div key={question.id} className="border p-4 rounded-md min-w-80 justify-between flex flex-col">
               <label htmlFor={question.title} className="block font-semibold mb-2">
                 {question.title}
               </label>
-              <div className="flex justify-between">
+              <div className="flex justify-between star-rating">
                 {[1, 2, 3, 4, 5].map((value) => (
                   <div key={value} className="flex flex-col items-center">
-                    <label htmlFor={`${question.id}-${value}`}>{value}</label>
                     <input
                       type="radio"
                       id={`${question.id}-${value}`}
                       name={question.id.toString()}
                       value={value}
                       required
+                      onChange={() => handleStarChange(question.id, value)}
+                      className="peer hidden"
                     />
+                    <label
+                      htmlFor={`${question.id}-${value}`}
+                      className={`cursor-pointer text-3xl ${
+                        value <= selectedRating ? 'text-yellow-500' : 'text-gray-400'
+                      } hover:text-yellow-500`}
+                    >
+                      &#9733;
+                    </label>
                   </div>
                 ))}
               </div>
