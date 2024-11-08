@@ -76,7 +76,7 @@ export const RespondSurveys = () => {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {questions.map((question) => {
           return (
-            <div key={question.id} className="border p-4 rounded-md min-w-80">
+            <div key={question.id} className="border p-4 rounded-md min-w-80 justify-between flex flex-col">
               <label htmlFor={question.title} className="block font-semibold mb-2">
                 {question.title}
               </label>
