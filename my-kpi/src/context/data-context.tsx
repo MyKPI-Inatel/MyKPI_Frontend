@@ -79,7 +79,17 @@ export function DataProvider({ children }: DataProviderProps) {
   });
 
   const fetchSurveys = useCallback(async () => {
-    const response = await fetch(`${env.VITE_API_URL}/v1/surveys/`, {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      return;
+    }
+
+    const { usertype, orgid } = jwtDecode<{ usertype: string, orgid: number }>(token);
+
+    const url = usertype === 'superadmin' ? `${env.VITE_API_URL}/v1/surveys/` : `${env.VITE_API_URL}/v1/surveys/org/${orgid}`;
+
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
