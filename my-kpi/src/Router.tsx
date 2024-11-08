@@ -6,6 +6,7 @@ import Questions from './pages/questions';
 import Surveys from './pages/survey';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DataProvider } from './context/data-context';
+import { RespondSurveys } from './pages/respond-surveys';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ export function Router() {
           <Route path="/config" element={<Configuration />} />
           <Route path="/questions/survey/:surveyId" element={<Questions />} />
           <Route path="/surveys" element={<Surveys />} />
+          <Route path="/surveys/:surveyId" element={<RespondSurveys />} />
         </Routes>
       </DataProvider>
     </QueryClientProvider>

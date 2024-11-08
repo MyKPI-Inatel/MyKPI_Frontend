@@ -19,7 +19,7 @@ export const CreateSurvey = () => {
   async function handleCreation(formData: FormData) {
     const title = formData.get('title');
 
-    if (!title || !orgId) {
+    if (!title || orgId === null) {
       swal('Erro', 'O título é obrigatório', 'error');
       return;
     }
@@ -64,15 +64,13 @@ export const CreateSurvey = () => {
             e.preventDefault();
             handleCreation(new FormData(e.currentTarget));
           }}
-          className="flex flex-col items-end gap-4 pt-4"
+          className="flex flex-col gap-4 pt-4"
         >
-          <div className="flex flex-col w-full gap-4">
-            <Label htmlFor="title" className="text-left">
-              Questionário
-            </Label>
-            <Input type="text" id="title" name="title" placeholder="Título do Questionário" />
-          </div>
-          <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white">
+          <Label htmlFor="title" className="text-left">
+            Questionário
+          </Label>
+          <Input type="text" id="title" name="title" placeholder="Título do Questionário" />
+          <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white self-end">
             Salvar
           </DialogClose>
         </form>

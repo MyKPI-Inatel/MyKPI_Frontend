@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { columns as orgColumns } from '../components/config/org/columns';
 import { columns as dptColumns } from '../components/config/department/columns';
+import { columns as userColumns } from '../components/config/users/columns';
 import { DataTable } from '../components/data-table';
 import { Layout } from '../components/layout';
 import { CreateOrganization } from '../components/config/org/create-org';
@@ -11,12 +12,20 @@ import { Spinner } from '../components/ui/spinner';
 import { useAuthGuard } from '../hooks/auth-guard';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { CreateUser } from '../components/config/users/create-user';
 
 export default function Configuration() {
   useAuthGuard();
   const navigate = useNavigate();
-  const { organizations, departments, orgId, handleOrgChange, isOrganizationsLoading, isDepartmentsLoading } =
-    useContext(DataContext);
+  const {
+    users,
+    organizations,
+    departments,
+    orgId,
+    handleOrgChange,
+    isOrganizationsLoading,
+    isDepartmentsLoading,
+  } = useContext(DataContext);
 
   const [userRole, setUserRole] = useState<string | null>(null);
 
@@ -45,9 +54,18 @@ export default function Configuration() {
         {/* Funcionário Section */}
         <div className="flex flex-col w-1/2 space-y-5 shadow-md p-5 rounded-md">
           <div className="flex justify-between items-center">
-            <span className="font-bold text-2xl">Funcionário</span>
+            <div className="flex space-x-5">
+              <span className="font-bold text-2xl">Funcionário</span>
+            </div>
+            <CreateUser />
           </div>
-          {/* Future content for Funcionário section */}
+          {isDepartmentsLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <Spinner />
+            </div>
+          ) : (
+            <DataTable columns={userColumns} data={users} />
+          )}
         </div>
 
         {/* Departments Section */}

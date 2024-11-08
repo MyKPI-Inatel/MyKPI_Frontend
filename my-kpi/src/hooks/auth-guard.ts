@@ -26,6 +26,7 @@ export const useAuthGuard = () => {
     try {
       const decodedToken = jwtDecode<CustomJwtPayload>(token);
       console.log(decodedToken);
+      decodedToken.id && localStorage.setItem('id', decodedToken.id.toString());
       const isTokenExpired = decodedToken.exp ? decodedToken.exp * 1000 < Date.now() : true;
       if (isTokenExpired) {
         localStorage.clear();

@@ -19,12 +19,12 @@ export default function Surveys() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const role = localStorage.getItem('usertype')
+    const role = localStorage.getItem('usertype');
 
     if (role === 'employee') {
-      return navigate('/')
+      return navigate('/');
     }
-  }, [])
+  }, []);
 
   return (
     <Layout className="flex w-full space-x-5 p-5">
