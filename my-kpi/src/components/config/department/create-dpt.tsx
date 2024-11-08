@@ -11,10 +11,11 @@ import {
 } from '../../ui/dialog';
 import { Input } from '../../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
-import { useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { DataContext } from '../../../context/data-context';
 import { Organizations } from '../org/columns';
 import swal from 'sweetalert';
+import { jwtDecode } from 'jwt-decode';
 
 export const CreateDepartment = () => {
   const { organizations } = useContext(DataContext);
@@ -24,6 +25,19 @@ export const CreateDepartment = () => {
   async function handleCreation(formData: FormData) {
     const name = formData.get('name');
     const id = formData.get('id');
+
+    if (organizations.length === 0) {
+      const token = localStorage.getItem('access_token');
+      
+      if (token) {
+        const { orgid } = jwtDecode<{ orgid: number }>(token);
+
+        setOrganization({
+          id: orgid,
+          name: '',
+        })
+      }
+    }
 
     if (!name || !id || !organization) {
       swal('Erro', 'Todos os campos são obrigatórios', 'error');
@@ -82,29 +96,33 @@ export const CreateDepartment = () => {
               Nome do departamento
             </Label>
             <Input type="text" id="department" name="name" placeholder="Nome do Departamento" />
-            <Label htmlFor="organization" className="text-left">
-              Organização
-            </Label>
-            <Select
-              onValueChange={(value) => {
-                const selectedOrg = organizations.find((org) => org.id === Number(value));
-                if (selectedOrg) {
-                  setOrganization(selectedOrg);
-                }
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Organização" />
-              </SelectTrigger>
-              <SelectContent>
-                {organizations.length > 0 &&
-                  organizations.map((org) => (
-                    <SelectItem key={org.id} value={org.id.toString()}>
-                      {org.name}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+            {organizations.length > 0 && (
+              <Fragment>
+                <Label htmlFor="organization" className="text-left">
+                  Organização
+                </Label>
+                <Select
+                  onValueChange={(value) => {
+                    const selectedOrg = organizations.find((org) => org.id === Number(value));
+                    if (selectedOrg) {
+                      setOrganization(selectedOrg);
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Organização" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {organizations.length > 0 &&
+                      organizations.map((org) => (
+                        <SelectItem key={org.id} value={org.id.toString()}>
+                          {org.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </Fragment>
+            )}
           </div>
           <DialogClose type="submit" className="px-5 py-2 bg-blue-500 rounded-md text-white">
             Salvar
