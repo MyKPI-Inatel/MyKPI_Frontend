@@ -6,6 +6,7 @@ import { columns as questionColumns, Pergunta } from '../components/config/quest
 import { Spinner } from '../components/ui/spinner';
 import { env } from '../lib/env';
 import { useQuery } from '@tanstack/react-query';
+import { ChooseQuestion } from '../components/config/question/choose-question';
 
 const fetchQuestions = async (surveyId: string) => {
   const response = await fetch(`${env.VITE_API_URL}/v1/questions/survey/${surveyId}`, {
@@ -24,11 +25,15 @@ const fetchQuestions = async (surveyId: string) => {
 export default function Questions() {
   const { surveyId } = useParams<{ surveyId: string }>();
 
-  const { data: questions, isLoading, error } = useQuery<Pergunta[], Error>({
+  const {
+    data: questions,
+    isLoading,
+    error,
+  } = useQuery<Pergunta[], Error>({
     queryKey: ['questions', surveyId],
     queryFn: () => fetchQuestions(surveyId!),
     enabled: !!surveyId,
-  })
+  });
 
   if (isLoading) {
     return (
@@ -59,6 +64,7 @@ export default function Questions() {
       <div className="flex flex-col w-full space-y-5 shadow-md p-5 rounded-md">
         <div className="flex justify-between items-center">
           <span className="font-bold text-2xl">Perguntas</span>
+          <ChooseQuestion />
           <CreateQuestion />
         </div>
         <DataTable columns={questionColumns} data={questions!} />

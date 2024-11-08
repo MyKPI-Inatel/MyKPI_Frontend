@@ -23,8 +23,8 @@ export const CreateSurvey = () => {
       return;
     }
 
-    const { orgid } = jwtDecode<{ usertype: string, orgid: number }>(token);
-    
+    const { orgid } = jwtDecode<{ usertype: string; orgid: number }>(token);
+
     const title = formData.get('title');
 
     if (!title || orgid === null) {

@@ -16,7 +16,6 @@ import { useParams } from 'react-router-dom';
 export const CreateQuestion = () => {
   const queryClient = useQueryClient();
   const { surveyId } = useParams<{ surveyId: string }>();
-  console.log(surveyId);
 
   async function handleCreation(formData: FormData) {
     const title = formData.get('title');
@@ -47,17 +46,20 @@ export const CreateQuestion = () => {
 
       const data = await response.json();
 
-      const associationResponse = await fetch(`${env.VITE_API_URL}/v1/questions/${data.id}/survey/${surveyId}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      const associationResponse = await fetch(
+        `${env.VITE_API_URL}/v1/questions/${data.id}/survey/${surveyId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
         },
-      })
-      
+      );
+
       if (!associationResponse.ok) {
         throw new Error('Failed to associate question with survey');
       }
-      
+
       queryClient.invalidateQueries({
         queryKey: ['questions', surveyId],
       });

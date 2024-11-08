@@ -6,11 +6,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { env } from '../lib/env';
 import { jwtDecode } from 'jwt-decode';
 import { Users } from '../components/config/users/columns';
+import { Pergunta } from '../components/config/question/columns';
 
 export type DataContextType = {
   users: Users[];
   organizations: Organizations[];
   departments: Departments[];
+  questions: Pergunta[];
   surveys: Questionario[];
   orgId?: number;
   handleOrgChange: (id: number) => void;
@@ -85,9 +87,12 @@ export function DataProvider({ children }: DataProviderProps) {
       return;
     }
 
-    const { usertype, orgid } = jwtDecode<{ usertype: string, orgid: number }>(token);
+    const { usertype, orgid } = jwtDecode<{ usertype: string; orgid: number }>(token);
 
-    const url = usertype === 'superadmin' ? `${env.VITE_API_URL}/v1/surveys/` : `${env.VITE_API_URL}/v1/surveys/org/${orgid}`;
+    const url =
+      usertype === 'superadmin'
+        ? `${env.VITE_API_URL}/v1/surveys/`
+        : `${env.VITE_API_URL}/v1/surveys/org/${orgid}`;
 
     const response = await fetch(url, {
       headers: {
@@ -106,6 +111,26 @@ export function DataProvider({ children }: DataProviderProps) {
     queryKey: ['surveys'],
     queryFn: fetchSurveys,
     enabled: userRole === 'orgadmin' || userRole === 'superadmin',
+  });
+
+  const fetchQuestions = useCallback(async () => {
+    const response = await fetch(`${env.VITE_API_URL}/v1/questions/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch questions');
+    }
+
+    return response.json();
+  }, []);
+
+  const { data: questions = [] } = useQuery<Pergunta[]>({
+    queryKey: ['questions'],
+    queryFn: fetchQuestions,
+    enabled: userRole === 'superadmin' || userRole === 'orgadmin',
   });
 
   const fetchUsers = useCallback(async () => {
@@ -141,6 +166,7 @@ export function DataProvider({ children }: DataProviderProps) {
         users,
         organizations,
         departments,
+        questions,
         surveys,
         orgId,
         handleOrgChange,
