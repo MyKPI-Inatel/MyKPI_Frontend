@@ -47,20 +47,20 @@ export const CreateQuestion = () => {
 
       const data = await response.json();
 
-      queryClient.invalidateQueries({
-        queryKey: ['questions', surveyId],
-      });
-
       const associationResponse = await fetch(`${env.VITE_API_URL}/v1/questions/${data.id}/survey/${surveyId}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
       })
-
+      
       if (!associationResponse.ok) {
         throw new Error('Failed to associate question with survey');
       }
+      
+      queryClient.invalidateQueries({
+        queryKey: ['questions', surveyId],
+      });
 
       swal('Sucesso', 'Pergunta criada com sucesso', 'success');
     } catch (error) {

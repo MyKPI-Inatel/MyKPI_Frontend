@@ -82,7 +82,7 @@ export const RespondSurveys = () => {
               </label>
               <div className="flex justify-between">
                 {[1, 2, 3, 4, 5].map((value) => (
-                  <div key={value} className="flex flex-col items-center">
+                  <div key={value} className="flex flex-col items-center min-w-80">
                     <label htmlFor={`${question.id}-${value}`}>{value}</label>
                     <input
                       type="radio"
