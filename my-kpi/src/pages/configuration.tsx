@@ -73,7 +73,7 @@ export default function Configuration() {
           <div className="flex justify-between items-center">
             <div className="flex space-x-5">
               <span className="font-bold text-2xl">Departamentos</span>
-              <Select
+              {organizations.length > 0 && <Select
                 defaultValue={orgId?.toString()}
                 onValueChange={(value) => handleOrgChange(Number(value))}
               >
@@ -88,7 +88,7 @@ export default function Configuration() {
                       </SelectItem>
                     ))}
                 </SelectContent>
-              </Select>
+              </Select>}
             </div>
             <CreateDepartment />
           </div>
