@@ -104,7 +104,7 @@ export default function Configuration() {
 
       {/* "Organização" only for superadmin */}
       {userRole === 'superadmin' && (
-        <div className="flex flex-col w-full space-y-5 shadow-md p-5 rounded-md">
+        <div className="flex flex-col w-full space-y-5 shadow-md p-5 rounded-md" data-testid="organization-section">
           <div className="flex justify-between items-center">
             <span className="font-bold text-2xl">Organização</span>
             <CreateOrganization />
