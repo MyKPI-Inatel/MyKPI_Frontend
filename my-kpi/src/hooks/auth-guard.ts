@@ -25,7 +25,6 @@ export const useAuthGuard = () => {
 
     try {
       const decodedToken = jwtDecode<CustomJwtPayload>(token);
-      console.log(decodedToken);
       decodedToken.id && localStorage.setItem('id', decodedToken.id.toString());
       const isTokenExpired = decodedToken.exp ? decodedToken.exp * 1000 < Date.now() : true;
       if (isTokenExpired) {
@@ -58,7 +57,6 @@ export const useOrgAdminGuard = () => {
         localStorage.clear();
         return navigate('/login');
       }
-      console.log(decodedToken);
       if (decodedToken.usertype !== 'orgadmin' && decodedToken.usertype !== 'superadmin') {
         return navigate('/');
       }
@@ -88,7 +86,6 @@ export const useSuperAdminGuard = () => {
         localStorage.clear();
         return navigate('/login');
       }
-      console.log(decodedToken);
       if (decodedToken.usertype !== 'superadmin') {
         return navigate('/');
       }
