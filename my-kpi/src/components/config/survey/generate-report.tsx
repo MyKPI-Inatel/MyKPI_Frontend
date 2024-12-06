@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialog';
 import { env } from '../../../lib/env';
+import { useNavigate } from 'react-router-dom';
 
 interface RespondedSurveyProps {
   id: number
 }
 
 export const RespondedSurveys = ({ id }: RespondedSurveyProps) => {
+  const navigate = useNavigate();
   const fetchSurveys = async () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -60,6 +62,12 @@ export const RespondedSurveys = ({ id }: RespondedSurveyProps) => {
               </p>
             </div>
           ))}
+          <button
+            className="text-white bg-slate-400 hover:bg-blue-400 p-2 rounded-md"
+            onClick={() => navigate(`/reports/${id}`)}
+          >
+            Ver gráfico de barras
+          </button>
         </div>
       </DialogContent>
     </Dialog>
