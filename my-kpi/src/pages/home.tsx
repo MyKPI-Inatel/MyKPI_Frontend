@@ -4,9 +4,14 @@ import { env } from '../lib/env';
 import { useAuthGuard } from '../hooks/auth-guard';
 import { Spinner } from '../components/ui/spinner';
 
+interface Survey {
+  id: number;
+  title: string;
+}
+
 export default function Home() {
   useAuthGuard();
-  const [surveys, setSurveys] = useState([]);
+  const [surveys, setSurveys] = useState<Survey[]>([]);
   const [userData, setUserData] = useState({
     name: '',
     organization: '',
@@ -71,7 +76,7 @@ export default function Home() {
     }
   }
 
-  async function fetchSurveys(userId) {
+  async function fetchSurveys(userId: number) {
     try {
       const response = await fetch(env.VITE_API_URL + `/v1/surveys/unresponded/${userId}`, {
         headers: {

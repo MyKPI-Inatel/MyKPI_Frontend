@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import swal from 'sweetalert';
 import { EditSurvey } from './edit-survey';
+import { RespondedSurveys } from './generate-report';
 
 export type Questionario = {
   id: number;
@@ -89,6 +90,7 @@ export const columns: ColumnDef<Questionario>[] = [
             <Trash size={16} />
           </button>
           <EditSurvey survey={row.original} />
+          <RespondedSurveys id={row.original.id} />
         </div>
       );
     },
